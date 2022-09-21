@@ -6,3 +6,6 @@ file(GLOB SwelveTestFiles
 )
 
 add_executable(${PROJECT_NAME} ${SwelveTestFiles})
+
+target_link_libraries(${PROJECT_NAME} lib::swelve)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR})

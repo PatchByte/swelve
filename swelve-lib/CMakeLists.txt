@@ -1,9 +1,11 @@
 cmake_minimum_required (VERSION 3.8)
 project("swelveLib")
 
+option(SWELVE_LIB_ENABLE_WRITE "Enable's the Development utils")
+
 file(GLOB SwelveLibFiles
-    "include/*"
-    "source/*"
+    "include/*.hpp"
+    "source/*.cpp"
 )
 
 include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include/)
