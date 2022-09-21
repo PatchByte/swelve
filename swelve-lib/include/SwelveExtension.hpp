@@ -38,7 +38,8 @@ namespace swelve
     class SwelveWriter
     {
     public:
-        virtual size_t GetNeededWriterSize(SwelveExtension* input);
+        virtual size_t GetExtensionWriteSize(SwelveExtension* input);
+
         virtual bool WriteExtension(SwelveExtension* input, SwelveStream& extensionStream);
     };
 

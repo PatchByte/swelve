@@ -97,7 +97,7 @@ namespace swelve
 
     // Swelve Writer for writing extensions
 
-    size_t SwelveWriter::GetNeededWriterSize(SwelveExtension* input)
+    size_t SwelveWriter::GetExtensionWriteSize(SwelveExtension* input)
     {
         size_t neededSize = 0;
 

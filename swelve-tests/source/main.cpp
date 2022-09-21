@@ -29,7 +29,7 @@ int main(int argc, char const *argv[])
         exampleWritedExtension->name = "Test Extension";
         exampleWritedExtension->description = "Just a simple test.";
 
-        exampleExtensionSerializedSize = exampleWriter->GetNeededWriterSize(exampleWritedExtension);
+        exampleExtensionSerializedSize = exampleWriter->GetExtensionWriteSize(exampleWritedExtension);
         exampleSerializedInput = new uint8_t[exampleExtensionSerializedSize];
 
         swelve::SwelveStream exampleOutputStream = swelve::SwelveStream(exampleSerializedInput, exampleExtensionSerializedSize);

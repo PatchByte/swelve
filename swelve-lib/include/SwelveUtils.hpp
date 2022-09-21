@@ -3,49 +3,32 @@
 namespace swelve
 {
 
+    // Please don't judge me about the code.
+
     class SwelveStream
     {
     private:
-        void* pData;
-        unsigned long long mCursor;
-        unsigned long long mMaxSize;
+        void* dataBuffer;
+        unsigned long long dataCursor;
+        unsigned long long dataLength;
     public:
-        SwelveStream(void* data, unsigned long long dataLength)
-        {
-            pData = data;
-            mCursor = 0;
-            mMaxSize = dataLength;
-        }
+        SwelveStream(void* data, unsigned long long dataLength):
+            dataBuffer(data),
+            dataLength(dataLength),
+            dataCursor(0)
+        {}
 
-        unsigned long long GetCursor()
-        {
-            return mCursor;
-        }
+        unsigned long long GetCursor() { return dataCursor; }
 
-        unsigned long long GetSizeOfData()
-        {
-            return mMaxSize;
-        }
+        unsigned long long GetSizeOfData() { return dataLength; }
 
-        void SetCursor(unsigned long long pos)
-        {
-            mCursor = pos;
-        }
+        void SetCursor(unsigned long long pos) { dataCursor = pos; }
 
-        void AddCursor(unsigned long long pos)
-        {
-            mCursor = mCursor + pos;
-        }
+        void AddCursor(unsigned long long pos) { dataCursor += pos; }
 
-        void SubCursor(unsigned long long pos)
-        {
-            mCursor = mCursor - pos;
-        }
+        void SubCursor(unsigned long long pos) { dataCursor -= pos; }
 
-        bool IsEOF()
-        {
-            return mCursor >= mMaxSize;
-        }
+        bool IsEOF() { return dataCursor >= dataLength; }
 
         template<typename T>
         T* Read(T* buffer)
@@ -57,10 +40,10 @@ namespace swelve
 
             for(unsigned long long i = 0; i < sizeof(T); i++)
             {
-                ((unsigned char*)buffer)[i] = ((unsigned char*)pData)[mCursor+i];
+                static_cast<uint8_t*>(buffer)[i] = static_cast<uint8_t*>(dataBuffer)[dataCursor+i];
             }
 
-            mCursor = mCursor + sizeof(T);
+            dataCursor += sizeof(T);
 
             return buffer;
         }
@@ -75,10 +58,10 @@ namespace swelve
 
             for(unsigned long long i = 0; i < sizeof(T); i++)
             {
-                ((unsigned char*)pData)[mCursor+i] = ((unsigned char*)buffer)[i];
+                static_cast<uint8_t*>(dataBuffer)[dataCursor+i] = static_cast<uint8_t*>(buffer)[i];
             }
 
-            mCursor = mCursor + sizeof(T);
+            dataCursor += sizeof(T);
 
             return buffer;
         }
@@ -92,10 +75,10 @@ namespace swelve
 
             for(unsigned long long i = 0; i < len; i++)
             {
-                ((unsigned char*)buffer)[i] = ((unsigned char*)pData)[mCursor+i];
+                static_cast<uint8_t*>(buffer)[i] = static_cast<uint8_t*>(dataBuffer)[dataCursor+i];
             }
 
-            mCursor = mCursor + len;
+            dataCursor += len;
 
             return buffer;
         }
@@ -109,10 +92,10 @@ namespace swelve
 
             for(unsigned long long i = 0; i < len; i++)
             {
-                ((unsigned char*)pData)[mCursor+i] = ((unsigned char*)buffer)[i];
+                static_cast<uint8_t*>(dataBuffer)[dataCursor+i] = static_cast<uint8_t*>(buffer)[i];
             }
 
-            mCursor = mCursor + len;
+            dataCursor += len;
 
             return buffer;
         }
