@@ -13,6 +13,7 @@ namespace swelve
     class SwelveExtension
     {
     public:
+        SwelveExtension();
         virtual ~SwelveExtension();
 
         virtual const char* GetName();
@@ -21,6 +22,9 @@ namespace swelve
         virtual void* GetAdditionalInformations();
         virtual SwelveHash GetAdditionalFlags();
     public:
+        bool allowDeallocationOfName;
+        bool allowDeallocationOfDesc;
+
         const char* name;
         const char* description;
     };

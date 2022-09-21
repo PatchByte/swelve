@@ -23,6 +23,9 @@ int main(int argc, char const *argv[])
     {
         exampleWritedExtension = new swelve::SwelveExtension();
 
+        exampleWritedExtension->allowDeallocationOfDesc = false;
+        exampleWritedExtension->allowDeallocationOfName = false;
+
         exampleWritedExtension->name = "Test Extension";
         exampleWritedExtension->description = "Just a simple test.";
 
@@ -39,11 +42,13 @@ int main(int argc, char const *argv[])
         ostream.open("example_wrote_output.bin", std::ios::binary | std::ios::trunc);
         ostream.write((char*)exampleSerializedInput, exampleExtensionSerializedSize);
         ostream.close();
+
+        delete exampleWritedExtension;
     }
 
     {
         swelve::SwelveStream exampleInputStream = swelve::SwelveStream(exampleSerializedInput, exampleExtensionSerializedSize);
-        exampleReadedExtension = exampleReader->ReadExtension(exampleInputStream);
+        exampleReadedExtension = swelveInstance->ParseExtension(exampleInputStream);
 
         if(exampleReadedExtension)
         {
@@ -55,6 +60,11 @@ int main(int argc, char const *argv[])
             std::cout << "[ Extension::ReaderTest ] Failed to read Extension." << std::endl;
         }
     }
+    
+    delete exampleWriter;
+    delete exampleReader;
+
+    delete swelveInstance;
 
     return 0;
 }

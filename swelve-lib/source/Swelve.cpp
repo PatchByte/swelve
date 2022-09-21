@@ -3,9 +3,9 @@
 
 namespace swelve
 {
-    SwelveInstance::SwelveInstance()
+    SwelveInstance::SwelveInstance():
+        swelveExtensionList(new std::vector<SwelveExtension*>())
     {
-        this->swelveExtensionList = new std::vector<SwelveExtension*>();
     }
 
     SwelveInstance::~SwelveInstance()
@@ -27,13 +27,14 @@ namespace swelve
         return new SwelveWriter();
     }
 
-    bool SwelveInstance::ParseExtension(SwelveStream& extensionStream)
+    SwelveExtension* SwelveInstance::ParseExtension(SwelveStream& extensionStream)
     {
         SwelveReader* reader = this->CreateReader();
+        SwelveExtension* ext = reader->ReadExtension(extensionStream);
 
-        AppendExtension(reader->ReadExtension(extensionStream));
+        AppendExtension(ext);
 
-        return reader;
+        return ext;
     }
 
     bool SwelveInstance::AppendExtension(SwelveExtension* extension)

@@ -20,7 +20,7 @@ namespace swelve
         virtual SwelveReader* CreateReader();
         virtual SwelveWriter* CreateWriter();
 
-        virtual bool ParseExtension(SwelveStream& extensionStream);
+        virtual SwelveExtension* ParseExtension(SwelveStream& extensionStream);
         virtual bool AppendExtension(SwelveExtension* extension);
 
     public:

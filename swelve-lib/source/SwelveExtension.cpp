@@ -3,15 +3,23 @@
 namespace swelve
 {
 
+    SwelveExtension::SwelveExtension():
+        name(nullptr),
+        description(nullptr),
+        allowDeallocationOfName(true),
+        allowDeallocationOfDesc(true)
+    {
+    }
+
     SwelveExtension::~SwelveExtension()
     {
-        if(name)
+        if(name && allowDeallocationOfName)
         {
             delete[] name;
             name = nullptr;
         }
 
-        if(description)
+        if(description && allowDeallocationOfDesc)
         {
             delete[] description;
             description = nullptr;
