@@ -1,4 +1,5 @@
 #include "SwelveExtension.hpp"
+#include "SwelveManifest.hpp"
 
 namespace swelve
 {
@@ -133,6 +134,39 @@ namespace swelve
         if(descriptionLength)
         {
             extensionStream.WriteRawBuffer((void*)input->description, descriptionLength);
+        }
+
+        return true;
+    }
+
+    // Swelve Writer for Manifest
+
+    /*
+        Swelve Manifest
+        manifestEntriesCount: u64
+        manifestEntries: ManfiestEntry[@manifestEntriesCount]
+
+        Swelve Manifest Entry
+        manifestIdentifier: u64
+    */
+
+    size_t SwelveWriter::GetManifestWriteSize(SwelveManifest* input)
+    {
+        return (
+            sizeof(uint64_t) + 
+            sizeof(uint64_t) * input->entries->size()
+        );
+    }
+
+    bool SwelveWriter::WriteManifest(SwelveManifest* input, SwelveStream& manifestStream)
+    {
+        uint64_t entriesSize = input->entries->size();
+
+        manifestStream.Write(entriesSize);
+
+        for(SwelveManifestEntry* currentEntry : *input->entries)
+        {
+            manifestStream.Write(currentEntry->linkedIdentifier);
         }
 
         return true;

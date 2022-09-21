@@ -8,12 +8,12 @@ namespace swelve
     class SwelveStream
     {
     private:
-        void* dataBuffer;
+        uint8_t* dataBuffer;
         unsigned long long dataCursor;
         unsigned long long dataLength;
     public:
         SwelveStream(void* data, unsigned long long dataLength):
-            dataBuffer(data),
+            dataBuffer(static_cast<uint8_t*>(data)),
             dataLength(dataLength),
             dataCursor(0)
         {}
@@ -31,8 +31,10 @@ namespace swelve
         bool IsEOF() { return dataCursor >= dataLength; }
 
         template<typename T>
-        T* Read(T* buffer)
+        T* Read(T* _buffer)
         {
+            uint8_t *buffer = (uint8_t*)_buffer; 
+
             if(IsEOF())
             {
                 return nullptr;
@@ -40,17 +42,25 @@ namespace swelve
 
             for(unsigned long long i = 0; i < sizeof(T); i++)
             {
-                static_cast<uint8_t*>(buffer)[i] = static_cast<uint8_t*>(dataBuffer)[dataCursor+i];
+                buffer[i] = dataBuffer[dataCursor+i];
             }
 
             dataCursor += sizeof(T);
 
-            return buffer;
+            return _buffer;
         }
 
         template<typename T>
-        T* Write(T* buffer)
+        void Write(T buffer)
         {
+            Write(&buffer);
+        }
+
+        template<typename T>
+        T* Write(T* _buffer)
+        {
+            uint8_t *buffer = (uint8_t*)_buffer; 
+
             if(IsEOF())
             {
                 return nullptr;
@@ -58,16 +68,18 @@ namespace swelve
 
             for(unsigned long long i = 0; i < sizeof(T); i++)
             {
-                static_cast<uint8_t*>(dataBuffer)[dataCursor+i] = static_cast<uint8_t*>(buffer)[i];
+                dataBuffer[dataCursor+i] = buffer[i];
             }
 
             dataCursor += sizeof(T);
 
-            return buffer;
+            return _buffer;
         }
 
-        void* ReadRawBuffer(void* buffer, unsigned long long len)
+        void* ReadRawBuffer(void* _buffer, unsigned long long len)
         {
+            uint8_t *buffer = (uint8_t*)_buffer; 
+
             if(IsEOF())
             {
                 return nullptr;
@@ -75,16 +87,18 @@ namespace swelve
 
             for(unsigned long long i = 0; i < len; i++)
             {
-                static_cast<uint8_t*>(buffer)[i] = static_cast<uint8_t*>(dataBuffer)[dataCursor+i];
+                buffer[i] = dataBuffer[dataCursor+i];
             }
 
             dataCursor += len;
 
-            return buffer;
+            return _buffer;
         }
 
-        void* WriteRawBuffer(void* buffer, unsigned long long len)
+        void* WriteRawBuffer(void* _buffer, unsigned long long len)
         {
+            uint8_t *buffer = (uint8_t*)_buffer; 
+
             if(IsEOF())
             {
                 return nullptr;
@@ -92,12 +106,12 @@ namespace swelve
 
             for(unsigned long long i = 0; i < len; i++)
             {
-                static_cast<uint8_t*>(dataBuffer)[dataCursor+i] = static_cast<uint8_t*>(buffer)[i];
+                dataBuffer[dataCursor+i] = buffer[i];
             }
 
             dataCursor += len;
 
-            return buffer;
+            return _buffer;
         }
     };
 

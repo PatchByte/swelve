@@ -10,5 +10,7 @@ namespace swelve
     class SwelveExtension;
     class SwelveReader;
     class SwelveWriter;
+    class SwelveManifestEntry;
+    class SwelveManifest;
     
 }
