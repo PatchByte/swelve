@@ -21,18 +21,23 @@ namespace swelve
 
         virtual void* GetAdditionalInformations();
         virtual SwelveHash GetAdditionalFlags();
+
+        virtual SwelveHash GetIdentifier();
     public:
         bool allowDeallocationOfName;
         bool allowDeallocationOfDesc;
 
         const char* name;
         const char* description;
+
+        SwelveHash identifier;
     };
 
     class SwelveReader
     {
     public:
         virtual SwelveExtension* ReadExtension(SwelveStream& extensionStream);
+        virtual SwelveManifest* ReadManfiest(SwelveStream& extensionStream, SwelveManifestResolveCallback* resolveCallback);
     };
 
     class SwelveWriter

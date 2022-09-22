@@ -24,7 +24,7 @@ namespace swelve
         virtual bool AppendExtension(SwelveExtension* extension);
 
     public:
-        std::vector<SwelveExtension*> *swelveExtensionList;
+        std::vector<SwelveExtension*> swelveExtensionList;
     };
 
 }

@@ -7,36 +7,40 @@ void test::ReadWriteExtensions()
 
     swelve::SwelveInstance* swelveInstance = new swelve::SwelveInstance();
 
-    swelve::SwelveExtension* exampleWritedExtension = nullptr;
+    swelve::SwelveExtension* exampleWrittenExtension = nullptr;
     swelve::SwelveExtension* exampleReadedExtension = nullptr;
 
     swelve::SwelveReader* exampleReader = swelveInstance->CreateReader();
     swelve::SwelveWriter* exampleWriter = swelveInstance->CreateWriter();
 
+    srand((uint32_t)time(0));
+
     {
-        exampleWritedExtension = new swelve::SwelveExtension();
+        exampleWrittenExtension = new swelve::SwelveExtension();
 
-        exampleWritedExtension->allowDeallocationOfDesc = false;
-        exampleWritedExtension->allowDeallocationOfName = false;
+        exampleWrittenExtension->allowDeallocationOfDesc = false;
+        exampleWrittenExtension->allowDeallocationOfName = false;
 
-        exampleWritedExtension->name = "Test Extension";
-        exampleWritedExtension->description = "Just a simple test.";
+        exampleWrittenExtension->name = "Test Extension";
+        exampleWrittenExtension->description = "Just a simple test.";
 
-        exampleExtensionSerializedSize = exampleWriter->GetExtensionWriteSize(exampleWritedExtension);
+        exampleWrittenExtension->identifier = 0xdeadbeef;
+
+        exampleExtensionSerializedSize = exampleWriter->GetExtensionWriteSize(exampleWrittenExtension);
         exampleSerializedInput = new uint8_t[exampleExtensionSerializedSize];
 
         swelve::SwelveStream exampleOutputStream = swelve::SwelveStream(exampleSerializedInput, exampleExtensionSerializedSize);
 
         std::cout << "[ Extension::WriterTest ] Needed Write Size: " << std::format("{:08x}", exampleExtensionSerializedSize) << std::endl;
 
-        exampleWriter->WriteExtension(exampleWritedExtension, exampleOutputStream);
+        exampleWriter->WriteExtension(exampleWrittenExtension, exampleOutputStream);
 
         std::ofstream ostream; 
-        ostream.open("example_wrote_output.bin", std::ios::binary | std::ios::trunc);
+        ostream.open("example_extension_output.bin", std::ios::binary | std::ios::trunc);
         ostream.write((char*)exampleSerializedInput, exampleExtensionSerializedSize);
         ostream.close();
 
-        delete exampleWritedExtension;
+        delete exampleWrittenExtension;
     }
 
     {
@@ -45,7 +49,7 @@ void test::ReadWriteExtensions()
 
         if(exampleReadedExtension)
         {
-            std::cout << "[ Extension::ReaderTest ]" << std::format("\n\tName: {}\n\tDescription: {}", exampleReadedExtension->name, exampleReadedExtension->description) << std::endl; 
+            std::cout << "[ Extension::ReaderTest ]" << std::format("\n\tName: {}\n\tDescription: {}\n\tIdentifier: {:016x}", exampleReadedExtension->name, exampleReadedExtension->description, exampleReadedExtension->identifier) << std::endl; 
             delete exampleReadedExtension;
         }
         else
@@ -54,6 +58,8 @@ void test::ReadWriteExtensions()
         }
     }
     
+    delete[] exampleSerializedInput;
+
     delete exampleWriter;
     delete exampleReader;
 

@@ -4,17 +4,12 @@
 namespace swelve
 {
     SwelveInstance::SwelveInstance():
-        swelveExtensionList(new std::vector<SwelveExtension*>())
+        swelveExtensionList()
     {
     }
 
     SwelveInstance::~SwelveInstance()
     {
-        if(this->swelveExtensionList)
-        {
-            delete this->swelveExtensionList;
-            this->swelveExtensionList = nullptr;
-        }
     }
 
     SwelveReader* SwelveInstance::CreateReader()
@@ -34,6 +29,8 @@ namespace swelve
 
         AppendExtension(ext);
 
+        delete reader;
+
         return ext;
     }
 
@@ -42,7 +39,7 @@ namespace swelve
         if(extension)
         {
             
-            this->swelveExtensionList->push_back(extension);
+            this->swelveExtensionList.push_back(extension);
 
             return true;
         }

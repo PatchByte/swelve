@@ -47,6 +47,11 @@ namespace swelve
         return SwelveExtensionBaseFlags_BaseExtension;
     }
 
+    SwelveHash SwelveExtension::GetIdentifier()
+    {
+        return identifier;
+    }
+
     /*
         Swelve Extension Binary Layout
         nameLength: u8
@@ -65,6 +70,7 @@ namespace swelve
 
         uint8_t nameLength = 0;
         uint8_t descriptionLength = 0;
+        SwelveHash identifier = 0;
 
         extensionStream.Read(&nameLength);
 
@@ -93,6 +99,8 @@ namespace swelve
             parsedExt->description = nullptr;
         }
 
+        parsedExt->identifier = *extensionStream.Read(&identifier);
+
         return parsedExt;
     }
 
@@ -107,7 +115,12 @@ namespace swelve
 
         // for name length
         neededSize += strlen(input->name);
+        
+        // for desc length
         neededSize += strlen(input->description);
+
+        // for identifier
+        neededSize += sizeof(SwelveHash);
 
         return neededSize;
     }
@@ -121,20 +134,23 @@ namespace swelve
 
         uint8_t nameLength = (uint8_t) strlen(input->name);
         uint8_t descriptionLength = (uint8_t) strlen(input->description);
+        SwelveHash identifier = input->identifier;
 
         if(nameLength == 0xFF || descriptionLength == 0xFF)
         {
             return false;
         }
 
-        extensionStream.Write(&nameLength);
+        extensionStream.Write(nameLength);
         extensionStream.WriteRawBuffer((void*)input->name, nameLength);
-        extensionStream.Write(&descriptionLength);
+        extensionStream.Write(descriptionLength);
 
         if(descriptionLength)
         {
             extensionStream.WriteRawBuffer((void*)input->description, descriptionLength);
         }
+
+        extensionStream.Write(identifier);
 
         return true;
     }
@@ -153,22 +169,42 @@ namespace swelve
     size_t SwelveWriter::GetManifestWriteSize(SwelveManifest* input)
     {
         return (
-            sizeof(uint64_t) + 
-            sizeof(uint64_t) * input->entries->size()
+            sizeof(uint64_t)    + 
+            sizeof(SwelveHash)  * input->entries.size()
         );
     }
 
     bool SwelveWriter::WriteManifest(SwelveManifest* input, SwelveStream& manifestStream)
     {
-        uint64_t entriesSize = input->entries->size();
+        uint64_t entriesSize = input->entries.size();
 
         manifestStream.Write(entriesSize);
 
-        for(SwelveManifestEntry* currentEntry : *input->entries)
+        for(auto currentEntry : input->entries)
         {
-            manifestStream.Write(currentEntry->linkedIdentifier);
+            manifestStream.Write(currentEntry.first);
         }
 
         return true;
+    }
+
+    SwelveManifest* SwelveReader::ReadManfiest(SwelveStream& extensionStream, SwelveManifestResolveCallback* resolveCallback)
+    {
+        SwelveManifest* manifest = new SwelveManifest();
+
+        uint64_t entriesSize = 0;
+
+        extensionStream.Read(&entriesSize);
+
+        for(uint64_t i = 0; i < entriesSize; i++)
+        {
+            SwelveHash currentEntry = 0;
+
+            extensionStream.Read(&currentEntry);
+
+            manifest->entries[currentEntry] = resolveCallback(currentEntry);
+        }
+
+        return manifest;
     }
 }
