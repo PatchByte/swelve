@@ -7,6 +7,8 @@
 #include <iostream>
 #include <functional>
 #include <vector>
+#include <map>
+#include <stack>
 
 namespace swelve
 {
@@ -20,11 +22,18 @@ namespace swelve
         virtual SwelveReader* CreateReader();
         virtual SwelveWriter* CreateWriter();
 
+        virtual SwelveManifest* ParseManifest(SwelveStream& extensionStream);
         virtual SwelveExtension* ParseExtension(SwelveStream& extensionStream);
-        virtual bool AppendExtension(SwelveExtension* extension);
+
+        virtual void PushResolveCallback(SwelveManifestResolveCallback* callback);
+        virtual void PopResolveCallback();
 
     public:
-        std::vector<SwelveExtension*> swelveExtensionList;
+        std::vector<SwelveManifest*> swelveManifestList;
+        std::map<SwelveHash, SwelveExtension*> swelveExtensionMap;
+        std::stack<SwelveManifestResolveCallback*> resolveCallbackStack;
+
+        SwelveManifestResolveCallback* swelveResolveCallback;
     };
 
 }

@@ -14,6 +14,8 @@ namespace swelve
 
     SwelveExtension::~SwelveExtension()
     {
+        this->OnUnload();
+
         if(name && allowDeallocationOfName)
         {
             delete[] name;
@@ -100,6 +102,7 @@ namespace swelve
         }
 
         parsedExt->identifier = *extensionStream.Read(&identifier);
+        parsedExt->OnLoad();
 
         return parsedExt;
     }

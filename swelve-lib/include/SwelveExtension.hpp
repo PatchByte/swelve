@@ -23,6 +23,9 @@ namespace swelve
         virtual SwelveHash GetAdditionalFlags();
 
         virtual SwelveHash GetIdentifier();
+        
+        virtual void OnLoad() {};
+        virtual void OnUnload() {};
     public:
         bool allowDeallocationOfName;
         bool allowDeallocationOfDesc;
@@ -32,7 +35,7 @@ namespace swelve
 
         SwelveHash identifier;
     };
-
+    
     class SwelveReader
     {
     public:

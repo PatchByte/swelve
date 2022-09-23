@@ -106,10 +106,12 @@ void test::ReadWriteManifest()
     {
         std::cout << "\t[ Manifest::ReadTest ]" << std::endl;
 
-        swelve::SwelveStream readedManifestStream = swelve::SwelveStream(writtenManifestBuffer, writtenManifestBufferSize);
-        swelve::SwelveManifest* readedManifest = reader->ReadManfiest(readedManifestStream, EasyResolver);
+        swelveInstance->PushResolveCallback(EasyResolver);
 
-        for(auto currentEntry : readedManifest->entries)
+        swelve::SwelveStream readedManifestStream = swelve::SwelveStream(writtenManifestBuffer, writtenManifestBufferSize);
+        swelve::SwelveManifest* readedManifest = swelveInstance->ParseManifest(readedManifestStream);
+
+        for(auto currentEntry : swelveInstance->swelveExtensionMap)
         {
             std::cout << "\t\t" << std::format("[ {} ] : {:016x}", currentEntry.second->name, currentEntry.second->identifier) << std::endl;
         }
