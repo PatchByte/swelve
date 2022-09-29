@@ -10,6 +10,10 @@
 #include <map>
 #include <stack>
 
+#define SWELVE_IMPLEMENT_IO()   virtual size_t SwelveGetExportSize(); \
+                                virtual void SwelveExport(swelve::SwelveStream& exportStream); \
+                                virtual void SwelveImport(swelve::SwelveStream& importStream);
+
 namespace swelve
 {
 
