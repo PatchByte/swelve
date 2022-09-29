@@ -1,9 +1,5 @@
 #pragma once
 
-#include <swelve-lib/include/Swelve.hpp>
-#include <swelve-lib/include/SwelveExtension.hpp>
-#include <swelve-lib/include/SwelveManifest.hpp>
-
 #include <Windows.h>
 #include <format>
 #include <sstream>
