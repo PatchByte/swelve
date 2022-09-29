@@ -102,6 +102,7 @@ namespace swelve
         }
 
         parsedExt->identifier = *extensionStream.Read(&identifier);
+        
         parsedExt->OnLoad();
 
         return parsedExt;
