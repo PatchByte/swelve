@@ -8,12 +8,12 @@ namespace swelve
     class SwelveStream
     {
     private:
-        uint8_t* dataBuffer;
+        unsigned char* dataBuffer;
         unsigned long long dataCursor;
         unsigned long long dataLength;
     public:
         SwelveStream(void* data, unsigned long long dataLength):
-            dataBuffer(static_cast<uint8_t*>(data)),
+            dataBuffer(static_cast<unsigned char*>(data)),
             dataLength(dataLength),
             dataCursor(0)
         {}
@@ -33,9 +33,14 @@ namespace swelve
         template<typename T>
         T* Read(T* _buffer)
         {
-            uint8_t *buffer = (uint8_t*)_buffer; 
+            unsigned char *buffer = (unsigned char*)_buffer; 
 
             if(IsEOF())
+            {
+                return nullptr;
+            }
+
+            if((dataCursor + sizeof(T)) > dataLength)
             {
                 return nullptr;
             }
@@ -59,9 +64,14 @@ namespace swelve
         template<typename T>
         T* Write(T* _buffer)
         {
-            uint8_t *buffer = (uint8_t*)_buffer; 
+            unsigned char *buffer = (unsigned char*)_buffer; 
 
             if(IsEOF())
+            {
+                return nullptr;
+            }
+
+            if((dataCursor + sizeof(T)) > dataLength)
             {
                 return nullptr;
             }
@@ -78,9 +88,14 @@ namespace swelve
 
         void* ReadRawBuffer(void* _buffer, unsigned long long len)
         {
-            uint8_t *buffer = (uint8_t*)_buffer; 
+            unsigned char *buffer = (unsigned char*)_buffer; 
 
             if(IsEOF())
+            {
+                return nullptr;
+            }
+
+            if((dataCursor + len) > dataLength)
             {
                 return nullptr;
             }
@@ -97,9 +112,14 @@ namespace swelve
 
         void* WriteRawBuffer(void* _buffer, unsigned long long len)
         {
-            uint8_t *buffer = (uint8_t*)_buffer; 
+            unsigned char *buffer = (unsigned char*)_buffer; 
 
             if(IsEOF())
+            {
+                return nullptr;
+            }
+
+            if((dataCursor + len) > dataLength)
             {
                 return nullptr;
             }
