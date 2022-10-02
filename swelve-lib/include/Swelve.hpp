@@ -10,9 +10,9 @@
 #include <map>
 #include <stack>
 
-#define SWELVE_IMPLEMENT_IO()   virtual size_t SwelveGetExportSize(); \
-                                virtual void SwelveExport(swelve::SwelveStream& exportStream); \
-                                virtual void SwelveImport(swelve::SwelveStream& importStream);
+#define SWELVE_IMPLEMENT_IO()   size_t GetSerializableSize(); \
+                                void Export(SwelveStream& stream); \
+                                void Import(SwelveStream& stream);
 
 namespace swelve
 {
