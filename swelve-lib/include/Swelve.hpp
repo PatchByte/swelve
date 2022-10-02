@@ -11,8 +11,8 @@
 #include <stack>
 
 #define SWELVE_IMPLEMENT_IO()   size_t GetSerializableSize(); \
-                                void Export(SwelveStream& stream); \
-                                void Import(SwelveStream& stream);
+                                void Export(swelve::SwelveStream& stream); \
+                                void Import(swelve::SwelveStream& stream);
 
 namespace swelve
 {
