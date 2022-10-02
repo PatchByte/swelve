@@ -1,6 +1,8 @@
 #include "SwelveExtension.hpp"
 #include "SwelveManifest.hpp"
 
+#include <cstring>
+
 namespace swelve
 {
 
