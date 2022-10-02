@@ -1,6 +1,12 @@
 #pragma once
 
+#ifndef _WIN32
+#include <termios.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#else
 #include <Windows.h>
+#endif
 #include <format>
 #include <sstream>
 #include <fstream>

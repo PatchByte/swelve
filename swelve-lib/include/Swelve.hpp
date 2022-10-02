@@ -3,7 +3,13 @@
 #include "SwelveDeclarations.hpp"
 #include "SwelveUtils.hpp"
 
+#ifndef _WIN32
+#include <termios.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#else
 #include <Windows.h>
+#endif
 #include <iostream>
 #include <functional>
 #include <vector>
