@@ -1,5 +1,6 @@
 #include "SwelveSerializable.hpp"
 
+#include <cstring>
 #include <cstdint>
 
 static_assert(sizeof(size_t) == 0x08);

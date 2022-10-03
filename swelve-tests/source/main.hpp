@@ -21,5 +21,6 @@ namespace test
 
     void ReadWriteExtensions();
     void ReadWriteManifest();
+    void ReadWriteString();
 
 }
