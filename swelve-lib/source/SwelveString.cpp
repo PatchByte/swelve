@@ -10,7 +10,7 @@ namespace swelve
 
     size_t SwelveString::GetSerializableSize()
     {
-
+        return sizeof(size_t) + str.length();
     }
 
     bool SwelveString::Export(SwelveStream& stream)
@@ -40,6 +40,8 @@ namespace swelve
         
         content = new char[contentSize + 1];
         memset(content, 0, contentSize + 1);
+
+        stream.ReadRawBuffer(content, contentSize);
 
         str.append(content);
 
