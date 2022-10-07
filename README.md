@@ -1,2 +1,2 @@
 # swelve
-Just a tiny loader system for extensions (addons).
+Just export / import from binaries.
