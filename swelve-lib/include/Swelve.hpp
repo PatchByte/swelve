@@ -28,17 +28,14 @@ namespace swelve
     {
     public:
         SwelveInstance();
+        
         virtual ~SwelveInstance();
-
         virtual SwelveReader* CreateReader();
         virtual SwelveWriter* CreateWriter();
-
         virtual SwelveManifest* ParseManifest(SwelveStream& extensionStream);
         virtual SwelveExtension* ParseExtension(SwelveStream& extensionStream);
-
         virtual void PushResolveCallback(SwelveManifestResolveCallback* callback);
         virtual void PopResolveCallback();
-
     public:
         std::vector<SwelveManifest*> swelveManifestList;
         std::map<SwelveHash, SwelveExtension*> swelveExtensionMap;

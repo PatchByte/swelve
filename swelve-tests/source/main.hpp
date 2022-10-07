@@ -16,6 +16,12 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 
+#include <swelve-lib/include/Swelve.hpp>
+#include <swelve-lib/include/SwelveObject.hpp>
+#include <swelve-lib/include/SwelveUtils.hpp>
+#include <swelve-lib/include/SwelveExtension.hpp>
+#include <swelve-lib/include/SwelveManifest.hpp>
+#include <swelve-lib/include/SwelveSerializable.hpp>
 namespace test
 {
 

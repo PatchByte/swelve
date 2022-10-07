@@ -48,7 +48,6 @@ namespace swelve
     public:
         virtual size_t GetExtensionWriteSize(SwelveExtension* input);
         virtual size_t GetManifestWriteSize(SwelveManifest* input);
-
         virtual bool WriteExtension(SwelveExtension* input, SwelveStream& extensionStream);
         virtual bool WriteManifest(SwelveManifest* input, SwelveStream& manifestStream);
     };

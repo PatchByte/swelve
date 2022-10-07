@@ -13,20 +13,20 @@ namespace swelve
         return sizeof(size_t) + str.length();
     }
 
-    bool SwelveString::Export(SwelveStream& stream)
+    void SwelveString::Export(SwelveStream& stream)
     {
         if(str.length() > smStringLimitations)
         {
-            return false;
+            stream.Error();
+            return;
         }
 
         stream.Write(str.length());
         stream.WriteRawBuffer((void*)str.c_str(), str.length());
 
-        return true;
     }
 
-    bool SwelveString::Import(SwelveStream& stream)
+    void SwelveString::Import(SwelveStream& stream)
     {
         char* content = nullptr;
         size_t contentSize = 0;
@@ -35,7 +35,8 @@ namespace swelve
 
         if(contentSize > smStringLimitations)
         {
-            return false;
+            stream.Error();
+            return;
         }
         
         content = new char[contentSize + 1];
@@ -46,8 +47,6 @@ namespace swelve
         str.append(content);
 
         delete[] content;
-
-        return true;
     }
 
 }

@@ -13,5 +13,6 @@ namespace swelve
     class SwelveWriter;
     class SwelveManifestEntry;
     class SwelveManifest;
+    class SwelveSerializable;
     
 }

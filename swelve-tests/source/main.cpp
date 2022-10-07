@@ -12,9 +12,10 @@ int main(int argc, char const *argv[])
 
     test::ReadWriteExtensions();
     test::ReadWriteManifest();
+    test::ReadWriteString(),
 
     _CrtDumpMemoryLeaks();
     _CrtDbgBreak();
-
+    
     return 0;
 }

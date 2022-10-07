@@ -11,11 +11,13 @@ namespace swelve
         unsigned char* dataBuffer;
         unsigned long long dataCursor;
         unsigned long long dataLength;
+        bool dataError;
     public:
         SwelveStream(void* data, unsigned long long dataLength):
             dataBuffer(static_cast<unsigned char*>(data)),
             dataLength(dataLength),
-            dataCursor(0)
+            dataCursor(0),
+            dataError(true)
         {}
 
         unsigned long long GetCursor() { return dataCursor; }
@@ -29,6 +31,9 @@ namespace swelve
         void SubCursor(unsigned long long pos) { dataCursor -= pos; }
 
         bool IsEOF() { return dataCursor >= dataLength; }
+
+        void Error() { dataError = true; }
+        bool HasError() { return dataError; }
 
         template<typename T>
         T* Read(T* _buffer)
@@ -134,5 +139,4 @@ namespace swelve
             return _buffer;
         }
     };
-
 }

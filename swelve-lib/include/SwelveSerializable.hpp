@@ -16,20 +16,18 @@ namespace swelve
         virtual void Import(SwelveStream& stream) = 0;
     };
 
-    class SwelveString
+    class SwelveString : public SwelveSerializable
     {
     public:
         static constexpr size_t smStringLimitations = 0x200;
 
-        SwelveString(std::string content);
-        SwelveString(const char* content);
-        SwelveString(SwelveStream& stream);
+        SwelveString(std::string content): str(content) {};
+        SwelveString(const char* content): str(content) {};
+        SwelveString(): str("") {}
 
-        virtual ~SwelveString();
-
-        virtual size_t GetSerializableSize();
-        virtual bool Export(SwelveStream& stream);
-        virtual bool Import(SwelveStream& stream);
+        size_t GetSerializableSize();
+        void Export(SwelveStream& stream);
+        void Import(SwelveStream& stream);
 
         std::string str;
     };
