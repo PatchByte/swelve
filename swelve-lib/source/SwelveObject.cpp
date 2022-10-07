@@ -25,7 +25,7 @@ namespace swelve
         if(objectBuffer)
         {
             objectSize = 0;
-            delete[] objectBuffer;
+            delete[] (unsigned char*)objectBuffer;
         }
     }
 
