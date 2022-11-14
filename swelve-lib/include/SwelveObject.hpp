@@ -10,7 +10,8 @@ namespace swelve
     {
     public:
         SwelveObject(size_t objectSize);
-        SwelveObject(SwelveSerializable* exportFrom);
+        SwelveObject(SwelveSerializable* importFrom);
+        SwelveObject(SwelveStream importBufferFrom);
 
         ~SwelveObject();
 

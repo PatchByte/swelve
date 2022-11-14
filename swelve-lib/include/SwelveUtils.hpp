@@ -20,6 +20,8 @@ namespace swelve
             dataError(true)
         {}
 
+        void* GetDataBuffer() { return dataBuffer; }
+
         unsigned long long GetCursor() { return dataCursor; }
 
         unsigned long long GetSizeOfData() { return dataLength; }
