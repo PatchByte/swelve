@@ -2,6 +2,8 @@
 #include "SwelveSerializable.hpp"
 #include "SwelveUtils.hpp"
 
+#include <string.h>
+
 namespace swelve
 {
 
