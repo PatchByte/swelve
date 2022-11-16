@@ -29,6 +29,21 @@ namespace swelve
         void Export(SwelveStream& stream);
         void Import(SwelveStream& stream);
 
+        void operator= (std::string Str)
+        {
+            str = Str;
+        }
+
+        void operator= (const char* Str)
+        {
+            str = Str;
+        }
+
+        void operator= (char* Str)
+        {
+            str = Str;
+        }
+
         std::string str;
     };
 
