@@ -2,6 +2,16 @@
 #include "SwelveExtension.hpp"
 #include "SwelveManifest.hpp"
 
+#ifndef _WIN32
+#include <termios.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <cstring>
+#else
+#include <Windows.h>
+#endif
+
+
 namespace swelve
 {
     SwelveInstance::SwelveInstance():
